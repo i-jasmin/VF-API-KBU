@@ -65,7 +65,6 @@ project/
 ├── venv/           # Virtual environment
 ├── main.py          # Main application
 ├── .env            # API configuration
-├── .gitignore      # Ignore patterns
 └── requirements.txt # Dependencies
 ```
 
