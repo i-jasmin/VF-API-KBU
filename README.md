@@ -22,7 +22,7 @@ Perfect for:
 ```bash
 # Clone the repository
 git clone https://github.com/i-jasmin/VF-API-KBU
-cd FF-API-KBU
+cd VF-API-KBU
 
 # Create and activate virtual environment
 python -m venv venv
