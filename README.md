@@ -17,6 +17,9 @@ Perfect for:
 - Creating knowledge bases from spreadsheets
 - Migrating existing data to Voiceflow
 
+## Screenshot
+![image](Screenshot.png)
+
 ## Setup Instructions
 
 ```bash
