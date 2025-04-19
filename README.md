@@ -64,7 +64,7 @@ streamlit run main.py
 
 ## File Structure
 ```
-project/
+VF-API-KBU/
 ├── venv/           # Virtual environment
 ├── main.py          # Main application
 ├── .env            # API configuration
