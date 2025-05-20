@@ -14,34 +14,6 @@ st.set_page_config(page_title="Data Upload to Voiceflow", layout="wide")
 VOICEFLOW_API_KEY = os.getenv('VOICEFLOW_API_KEY')
 UPLOAD_URL = 'https://api.voiceflow.com/v1/knowledge-base/docs/upload/table'
 
-
-def extract_table_name(filename: str) -> str:
-    """Extract the table name without the last file extension."""
-    return filename.rsplit('.', 1)[0]
-
-
-def build_upload_payload(df: pd.DataFrame, table_name: str,
-                         searchable_fields=None, metadata_fields=None) -> dict:
-    """Create the payload expected by the Voiceflow API."""
-    searchable_fields = searchable_fields or []
-    metadata_fields = metadata_fields or []
-
-    items = []
-    for _, row in df.iterrows():
-        item = {col: str(row[col]) for col in df.columns}
-        items.append(item)
-
-    return {
-        "data": {
-            "schema": {
-                "searchableFields": searchable_fields,
-                "metadataFields": metadata_fields,
-            },
-            "name": table_name,
-            "items": items,
-        }
-    }
-
 def main():
     st.title("📤 Data Upload to Voiceflow Knowledge Base")
     
@@ -62,7 +34,7 @@ def main():
             # Table name input
             table_name = st.text_input(
                 "Table Name",
-                value=extract_table_name(uploaded_file.name),
+                value=uploaded_file.name.split('.')[0],
                 help="Name for this table in Voiceflow Knowledge Base"
             )
             
@@ -95,14 +67,24 @@ def main():
                 if not table_name:
                     st.error("Please enter a table name")
                     st.stop()
-
+                
+                # Create items list
+                items = []
+                for _, row in df.iterrows():
+                    item = {col: str(row[col]) for col in columns}
+                    items.append(item)
+                
                 # Store payload in session state
-                st.session_state.upload_payload = build_upload_payload(
-                    df,
-                    table_name,
-                    searchable_fields,
-                    metadata_fields,
-                )
+                st.session_state.upload_payload = {
+                    "data": {
+                        "schema": {
+                            "searchableFields": searchable_fields,
+                            "metadataFields": metadata_fields
+                        },
+                        "name": table_name,
+                        "items": items
+                    }
+                }
 
             # Show preview if available
             if st.session_state.upload_payload:
