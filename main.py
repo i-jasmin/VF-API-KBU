@@ -71,7 +71,14 @@ def main():
                 # Create items list
                 items = []
                 for _, row in df.iterrows():
-                    item = {col: str(row[col]) for col in columns}
+                    item = {}
+                    for col in columns:
+                        value = row[col]
+                        if pd.isna(value):
+                            value = ""
+                        else:
+                            value = str(value)
+                        item[col] = value
                     items.append(item)
                 
                 # Store payload in session state
